@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Employee;
+use App\MoonShine\Resources\DepartmentResource;
+use App\MoonShine\Resources\EmployeeResource;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
@@ -54,6 +57,11 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     new MoonShineUserRoleResource()
                 ),
             ])->icon('heroicons.cube'),
+
+            MenuItem::make('Departamentos', new DepartmentResource()),
+
+            MenuItem::make('Empleados', new EmployeeResource())
+
 
             // MenuItem::make('Documentation', 'https://moonshine-laravel.com/docs')
             //     ->badge(fn() => 'Check')

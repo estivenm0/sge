@@ -12,6 +12,7 @@ use App\MoonShine\Pages\Employee\EmployeeDetailPage;
 use MoonShine\Attributes\Icon;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Email;
+use MoonShine\Fields\Field;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
@@ -52,18 +53,45 @@ class EmployeeResource extends ModelResource
         ];
     }
 
-    public function fields(): array
+    public function indexFields(): array
     {
         return [
-            Text::make('Nombres', 'first_name')->showOnExport()->useOnImport(),
-            Text::make('Apellidos', 'last_name')->showOnExport()->useOnImport(),
-            Email::make('Correo', 'email')->showOnExport()->useOnImport(),
-            Date::make('Fecha ingreso', 'hire_date')->showOnExport()->useOnImport(),
-            BelongsTo::make('Departamento', 'department', resource: new DepartmentResource())->showOnExport()->useOnImport()
+            ID::make()->sortable(),
+            Text::make('Nombres', 'first_name', fn($item) => $item->first_name . ' ' . $item->last_name)
+                ->showOnExport()->useOnImport()->sortable(),
+            Text::make('Apellidos', 'last_name')
+                ->showOnExport()->useOnImport(),
+            Email::make('Correo', 'email')
+                ->showOnExport()->useOnImport(),
+            Date::make('Fecha ingreso', 'hire_date')
+                ->showOnExport()->useOnImport(),
+            BelongsTo::make('Departamento', 'department', resource: new DepartmentResource())
+                ->showOnExport()->useOnImport()
         ];
     }
 
-  
+    public function formFields(): array
+    {
+        return [
+            Text::make('Nombres', 'first_name'),
+            Text::make('Apellidos', 'last_name'),
+            Email::make('Correo', 'email'),
+            Date::make('Fecha ingreso', 'hire_date'),
+            BelongsTo::make('Departamento', 'department', resource: new DepartmentResource())
+        ];
+    }
+
+    public function detailFields(): array
+    {
+        return [
+            Text::make('Nombres', 'first_name'),
+            Text::make('Apellidos', 'last_name'),
+            Email::make('Correo', 'email'),
+            Date::make('Fecha ingreso', 'hire_date'),
+            BelongsTo::make('Departamento', 'department', resource: new DepartmentResource())
+        ];
+    }
+
     public function filters(): array
     {
         return [
@@ -82,7 +110,9 @@ class EmployeeResource extends ModelResource
         return [
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
-            'email' => 'required|string|email|max:150|unique:table_name,email',
+            'email' => request()->isMethod('post')
+                ? 'required|string|email|max:150|unique:employees,email'
+                : 'required|string|email|max:150|unique:employees,email,' . $item->id,
             'hire_date' => 'required|date|before_or_equal:today',
             'department_id' => 'required|integer|exists:departments,id',
         ];

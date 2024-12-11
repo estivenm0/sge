@@ -43,6 +43,11 @@ class DepartmentResource extends ModelResource
  
     protected int $itemsPerPage = 10; 
 
+
+    public function getBadge(): int
+    {
+        return Department::count();
+    }
     
     /**
      * @return list<MoonShineComponent|Field>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Department;
 use App\Models\Employee;
 use App\MoonShine\Resources\DepartmentResource;
 use App\MoonShine\Resources\EmployeeResource;
@@ -17,6 +18,8 @@ use MoonShine\Contracts\Resources\ResourceContract;
 use MoonShine\Menu\MenuElement;
 use MoonShine\Pages\Page;
 use Closure;
+use Illuminate\Http\Request;
+use MoonShine\Menu\MenuDivider;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 {
@@ -48,19 +51,21 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     {
         return [
             MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
-                MenuItem::make(
-                    static fn() => __('moonshine::ui.resource.admins_title'),
-                    new MoonShineUserResource()
-                ),
-                MenuItem::make(
-                    static fn() => __('moonshine::ui.resource.role_title'),
-                    new MoonShineUserRoleResource()
-                ),
+                MenuItem::make('resource.admins_title',new MoonShineUserResource())
+                ->translatable('moonshine::ui'),
+                MenuItem::make('resource.role_title',new MoonShineUserRoleResource())
+                ->translatable('moonshine::ui'),
             ])->icon('heroicons.cube'),
 
-            MenuItem::make('Departamentos', new DepartmentResource()),
+            MenuDivider::make(),
+ 
+            MenuItem::make('Departamentos', new DepartmentResource())
+            ->canSee(function(Request $request) {
+                return $request->user('moonshine')?->id === 1;
+            }) ,
 
             MenuItem::make('Empleados', new EmployeeResource())
+            ->badge(fn()=> Employee::count())
 
 
             // MenuItem::make('Documentation', 'https://moonshine-laravel.com/docs')

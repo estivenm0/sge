@@ -10,12 +10,15 @@ use App\MoonShine\Pages\Employee\EmployeeIndexPage;
 use App\MoonShine\Pages\Employee\EmployeeFormPage;
 use App\MoonShine\Pages\Employee\EmployeeDetailPage;
 use MoonShine\Attributes\Icon;
+use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Grid;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Email;
 use MoonShine\Fields\Field;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
+use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -53,6 +56,17 @@ class EmployeeResource extends ModelResource
         ];
     }
 
+    public function metrics(): array
+    {
+        return [
+          ValueMetric::make('Empleados')
+          ->value(Employee::count())
+          ->progress(100)  
+          ->icon('heroicons.user-group')
+        ];
+    }
+    
+
     public function indexFields(): array
     {
         return [
@@ -73,10 +87,17 @@ class EmployeeResource extends ModelResource
     public function formFields(): array
     {
         return [
-            Text::make('Nombres', 'first_name'),
-            Text::make('Apellidos', 'last_name'),
-            Email::make('Correo', 'email'),
-            Date::make('Fecha ingreso', 'hire_date'),
+            Grid::make([
+                Column::make([
+                    Text::make('Nombres', 'first_name'),
+                    Text::make('Apellidos', 'last_name'),
+                ])->columnSpan(6),
+
+                Column::make([
+                    Email::make('Correo', 'email'),
+                    Date::make('Fecha ingreso', 'hire_date'),
+                ])->columnSpan(6),
+            ]),
             BelongsTo::make('Departamento', 'department', resource: new DepartmentResource())
         ];
     }

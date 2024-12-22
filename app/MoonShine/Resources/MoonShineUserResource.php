@@ -29,6 +29,8 @@ class MoonShineUserResource extends ModelResource
 
     public string $column = 'name';
 
+    protected bool $withPolicy = true;
+
     protected bool $columnSelection = true;
 
     public array $with = ['moonshineUserRole'];

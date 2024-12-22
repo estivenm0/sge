@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Policies\MoonshineUserPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use MoonShine\Models\MoonshineUser;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Gate::policy(MoonshineUser::class, MoonshineUserPolicy::class);
     }
 }

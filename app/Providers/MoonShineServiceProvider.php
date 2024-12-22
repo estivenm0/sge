@@ -14,12 +14,15 @@ use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRoleResource;
+use App\Policies\MoonshineUserPolicy;
 use MoonShine\Contracts\Resources\ResourceContract;
 use MoonShine\Menu\MenuElement;
 use MoonShine\Pages\Page;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use MoonShine\Menu\MenuDivider;
+use MoonShine\Models\MoonshineUser;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 {
@@ -48,21 +51,21 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
      * @return Closure|list<MenuElement>
      */
     protected function menu(): array
-    {
+    {   
         return [
             MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
                 MenuItem::make('resource.admins_title',new MoonShineUserResource())
                 ->translatable('moonshine::ui'),
                 MenuItem::make('resource.role_title',new MoonShineUserRoleResource())
                 ->translatable('moonshine::ui'),
-            ])->icon('heroicons.cube'),
+            ])->icon('heroicons.cube')
+            ->canSee(function(Request $request) {
+                return $request->user('moonshine')?->moonshineUserRole->name === 'Admin';
+            }) ,
 
             MenuDivider::make(),
  
-            MenuItem::make('Departamentos', new DepartmentResource())
-            ->canSee(function(Request $request) {
-                return $request->user('moonshine')?->id === 1;
-            }) ,
+            MenuItem::make('Departamentos', new DepartmentResource()),
 
             MenuItem::make('Empleados', new EmployeeResource())
             ->badge(fn()=> Employee::count())

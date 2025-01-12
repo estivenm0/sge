@@ -8,7 +8,8 @@
         "php": "^8.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "moonshine/moonshine": "^2.22"
+        "moonshine/moonshine": "^2.22",
+        "moonshine/permissions": "1.0.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

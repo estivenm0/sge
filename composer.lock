@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2300917d2fc616d00ff97ff95690e3e",
+    "content-hash": "e73ef0f3168e4b551d0b2e4355aa6a9b",
     "packages": [
         {
             "name": "brick/math",
@@ -2060,6 +2060,71 @@
                 }
             ],
             "time": "2024-10-23T14:17:23+00:00"
+        },
+        {
+            "name": "moonshine/permissions",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moonshine-software/permissions.git",
+                "reference": "d6d5785d319581760650179e7975d6f36492ad72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moonshine-software/permissions/zipball/d6d5785d319581760650179e7975d6f36492ad72",
+                "reference": "d6d5785d319581760650179e7975d6f36492ad72",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^8.1|^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.8",
+                "mockery/mockery": "^1.4.4",
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                "phpstan/phpstan": "^1.4.7",
+                "phpunit/phpunit": "^9.5.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MoonShine\\Permissions\\PermissionsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MoonShine\\Permissions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Danil Shutsky",
+                    "email": "thecutcode@gmail.com",
+                    "homepage": "https://moonshine-laravel.com"
+                }
+            ],
+            "description": "User permissions for MoonShine",
+            "homepage": "https://moonshine-laravel.com",
+            "keywords": [
+                "moonshine",
+                "permissions"
+            ],
+            "support": {
+                "issues": "https://github.com/moonshine-software/permissions/issues",
+                "source": "https://github.com/moonshine-software/permissions"
+            },
+            "time": "2024-06-14T07:22:03+00:00"
         },
         {
             "name": "nesbot/carbon",

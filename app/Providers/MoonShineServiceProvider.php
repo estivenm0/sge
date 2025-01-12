@@ -60,7 +60,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 ->translatable('moonshine::ui'),
             ])->icon('heroicons.cube')
             ->canSee(function(Request $request) {
-                return $request->user('moonshine')?->moonshineUserRole->name === 'Admin';
+                return $request->user('moonshine')?->isHavePermission(MoonshineUserResource::class, 'delete');
             }) ,
 
             MenuDivider::make(),

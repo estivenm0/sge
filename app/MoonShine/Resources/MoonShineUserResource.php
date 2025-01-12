@@ -18,18 +18,20 @@ use MoonShine\Fields\Password;
 use MoonShine\Fields\PasswordRepeat;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
-use MoonShine\Models\MoonshineUser;
+// use MoonShine\Models\MoonshineUser;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Models\MoonshineUserRole;
+use MoonShine\Permissions\Models\MoonshineUser;
+use MoonShine\Permissions\Traits\WithPermissions;
 
 #[Icon('heroicons.outline.users')]
 class MoonShineUserResource extends ModelResource
 {
+    use WithPermissions;
+    
     public string $model = MoonshineUser::class;
 
     public string $column = 'name';
-
-    protected bool $withPolicy = true;
 
     protected bool $columnSelection = true;
 
